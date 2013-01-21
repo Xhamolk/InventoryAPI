@@ -125,7 +125,7 @@ public interface IInventoryHandler {
 	 * Keep in mind that the max amount returned is limited by the item's max stack size.
 	 * @param inventory the inventory from where to take the item.
 	 * @param item the item to be taken. Only non-null values allowed.
-     * @param quantity the amount to take of this item.
+	 * @param quantity the amount to take of this item.
 	 * @param side the side from which the inventory is accessed.
 	 *             This will be ignored unless the inventory is ISidedInventory.
 	 * @return the ItemStack taken.
