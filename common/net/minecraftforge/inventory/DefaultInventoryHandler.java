@@ -158,7 +158,7 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 			iMax = inventory.getSizeInventory();
 		}
 
-		int remaining = quantity;
+		int remaining = Math.min( quantity, item.getMaxStackSize() );
 		ItemStack takenItem = null;
 		for( int slotIndex = iMin; slotIndex < iMax; slotIndex++ ) {
 			if( remaining <= 0 )
