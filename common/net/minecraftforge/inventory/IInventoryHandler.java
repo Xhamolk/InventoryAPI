@@ -66,6 +66,16 @@ public interface IInventoryHandler {
 	 */
 	public int getSpaceInSlotForItem(IInventory inventory, int slotIndex, ItemStack itemStack);
 
+	/**
+	 * Takes the first available item on the inventory.
+	 *
+	 * @param inventory the inventory from where to take the item.
+	 * @param side the side from which the inventory is accessed.
+	 *             This will be ignored unless the inventory is ISidedInventory.
+	 * @return the ItemStack of the item found, or null if no item is available on the inventory.
+	 */
+	public ItemStack takeItemFromInventory(IInventory inventory, ForgeDirection side);
+
 	public ItemStack takeItemFromInventory(IInventory inventory, ItemStack item, ForgeDirection side);
 
 	public ItemStack takeItemFromInventory(IInventory inventory, ItemStack item, int quantity, ForgeDirection side);
@@ -78,6 +88,15 @@ public interface IInventoryHandler {
 	public ItemStack takeItemFromInventorySlot(IInventory inventory, int slotIndex, int quantity);
 
 	public int getItemCountInInventory(IInventory inventory, ItemStack itemStack, ForgeDirection side);
+
+	/**
+	 * Get the amount of items available on the inventory slot.
+	 *
+	 * @param inventory the inventory to check for items.
+	 * @param slotIndex the inventory slot to check.
+	 * @return the amount available of any item in the inventory slot. Or 0, if no item is in the slot.
+	 */
+	public int getItemCountInSlot(IInventory inventory, int slotIndex);
 
 	public int getItemCountInSlot(IInventory inventory, int slotIndex, ItemStack itemStack);
 

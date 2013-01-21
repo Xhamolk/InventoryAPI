@@ -124,6 +124,26 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 		}
 	}
 
+	@Override
+	public ItemStack takeItemFromInventory(IInventory inventory, ForgeDirection side) {
+		int iMin = 0, iMax;
+		if( inventory instanceof ISidedInventory ) {
+			iMin = ((ISidedInventory) inventory).getStartInventorySide( side );
+			iMax = iMin + ((ISidedInventory) inventory).getSizeInventorySide( side );
+		} else {
+			iMax = inventory.getSizeInventory();
+		}
+
+		for( int slotIndex = iMin; slotIndex < iMax; slotIndex++ ) {
+			int count = getItemCountInSlot( inventory, slotIndex );
+			if( count > 0 ) {
+				return takeItemFromInventorySlot( inventory, slotIndex );
+			}
+		}
+
+		return null;
+	}
+
 
 	public ItemStack takeItemFromInventory(IInventory inventory, ItemStack item, ForgeDirection side) {
 		return takeItemFromInventory( inventory, item, item.stackSize, side);
@@ -144,7 +164,7 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 			if( remaining <= 0 )
 				break;
 
-			int count = InventoryUtils.getItemCountInSlot( inventory, slotIndex, item );
+			int count = getItemCountInSlot( inventory, slotIndex, item );
 			if( count == 0 )
 				continue;
 
@@ -228,13 +248,39 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 		return count;
 	}
 
-	public int getItemCountInSlot(IInventory inventory, int slotIndex, ItemStack itemStack) {
+	@Override
+	public int getItemCountInSlot(IInventory inventory, int slotIndex) {
 		try {
+			if( inventory instanceof IDynamicInventory )
+				return ((IDynamicInventory)inventory).getItemAvailabilityInSlot( slotIndex );
+
 			ItemStack stackInSlot = inventory.getStackInSlot( slotIndex );
 			if( stackInSlot == null )
 				return 0;
 
-			if( InventoryUtils.areItemStacksSimilar(itemStack, stackInSlot) )
+			return stackInSlot.stackSize;
+		} catch( ArrayIndexOutOfBoundsException aiob ) {
+			return 0;
+		} catch( IndexOutOfBoundsException iob ) {
+			return 0;
+		}
+	}
+
+	public int getItemCountInSlot(IInventory inventory, int slotIndex, ItemStack itemStack) {
+		try {
+			ItemStack stackInSlot = inventory.getStackInSlot( slotIndex );
+
+			if( inventory instanceof IDynamicInventory ) {
+				int available = ((IDynamicInventory)inventory).getItemAvailabilityInSlot( slotIndex );
+				if( itemStack != null && !InventoryUtils.areItemStacksSimilar(stackInSlot, itemStack) )
+					return 0;
+				return available;
+			}
+
+			if( stackInSlot == null )
+				return 0;
+
+			if( itemStack != null && InventoryUtils.areItemStacksSimilar(itemStack, stackInSlot) )
 				return stackInSlot.stackSize;
 
 			return 0;

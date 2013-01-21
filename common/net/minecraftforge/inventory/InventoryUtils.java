@@ -127,9 +127,23 @@ public final class InventoryUtils {
 		return getInventoryHandler( inventory ).getSpaceInSlotForItem( inventory, slotIndex, itemStack );
 	}
 
+	/**
+	 * Takes the first available item on the inventory.
+	 *
+	 * @param inventory the inventory from where to take the item.
+	 * @param side the side from which the inventory is accessed.
+	 *             This will be ignored unless the inventory is ISidedInventory.
+	 * @return the ItemStack of the item found, or null if no item is available on the inventory.
+	 */
+	public static ItemStack takeItemFromInventory(IInventory inventory, ForgeDirection side) {
+		return getInventoryHandler( inventory ).takeItemFromInventory( inventory, side );
+	}
 
 	public static ItemStack takeItemFromInventory(IInventory inventory, ItemStack item, ForgeDirection side) {
-		return getInventoryHandler( inventory ).takeItemFromInventory(inventory, item, side);
+		if( item != null )
+			return getInventoryHandler( inventory ).takeItemFromInventory( inventory, item, side );
+		else
+			return getInventoryHandler( inventory ).takeItemFromInventory( inventory, side );
 	}
 
 	public static ItemStack takeItemFromInventory(IInventory inventory, ItemStack item, int quantity, ForgeDirection side) {
@@ -147,6 +161,10 @@ public final class InventoryUtils {
 
 	public static int getItemCountInInventory(IInventory inventory, ItemStack itemStack, ForgeDirection side) {
 		return getInventoryHandler( inventory ).getItemCountInInventory( inventory, itemStack, side );
+	}
+
+	public static int getItemCountInSlot(IInventory inventory, int slotIndex) {
+		return getInventoryHandler( inventory ).getItemCountInSlot( inventory, slotIndex );
 	}
 
 	public static int getItemCountInSlot(IInventory inventory, int slotIndex, ItemStack itemStack) {
