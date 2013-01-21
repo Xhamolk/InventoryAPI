@@ -41,17 +41,31 @@ public interface IInventoryHandler {
 	/**
 	 * Tries to add the ItemStack into the IInventory.
 	 *
-	 * Note: the itemStack.stackSize will be manipulated.
-	 * If it's fully added, it's stack size will become 0.
+	 * Note: the itemStack.stackSize might be manipulated.
+	 * If it's fully added, its stack size will become 0.
 	 *
 	 * @param inventory the IInventory where to place the item.
-	 * @param itemStack the ItemStack to add into the inventory
+	 * @param itemStack the ItemStack to be added into the inventory.
 	 * @param side the ForgeDirection (side) from which the Inventory is accessed.
 	 *             Note: This is ignored if <code>inventory</code> it not a <code>ISidedInventory</code>
 	 * @return the amount of itemStack added into the inventory.
 	 */
 	public int addItemToInventory(IInventory inventory, ItemStack itemStack, ForgeDirection side);
 
+	/**
+	 * Tries to add the ItemStack into the IInventory.
+	 *
+	 * Note: the itemStack.stackSize might be manipulated.
+	 * If it's fully added, its stack size will become 0.
+	 *
+	 * Prefer using <code>addItemToInventory()</code> instead.
+	 *
+	 * @param inventory the IInventory where to place the item.
+	 * @param slotIndex the inventory slot where to try to place the item.
+	 * @param itemStack the ItemStack to be added into the inventory.
+	 * @return the amount of itemStack added into the inventory slot.
+	 * @see IInventoryHandler#addItemToInventory(net.minecraft.inventory.IInventory, net.minecraft.item.ItemStack, net.minecraftforge.common.ForgeDirection)
+	 */
 	public int addItemToInventorySlot(IInventory inventory, int slotIndex, ItemStack itemStack);
 
 	/**
@@ -127,12 +141,13 @@ public interface IInventoryHandler {
 	/**
 	 * Takes the specified amount of the item on the inventory slot.
 	 *
-	 * Prefer using takeItemFromInventory instead.
+	 * Prefer using <code>takeItemFromInventory()</code> instead.
 	 *
 	 * @param inventory the inventory from where to take the item.
 	 * @param slotIndex the inventory slot from where to take the item.
 	 * @param quantity the amount to take
 	 * @return the ItemStack taken, or null if the slot is empty.
+	 * @see IInventoryHandler#takeItemFromInventory(net.minecraft.inventory.IInventory, net.minecraftforge.common.ForgeDirection)
 	 */
 	public ItemStack takeItemFromInventorySlot(IInventory inventory, int slotIndex, int quantity);
 
