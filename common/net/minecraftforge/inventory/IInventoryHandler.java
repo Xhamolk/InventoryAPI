@@ -11,8 +11,11 @@ import java.util.ArrayList;
  * The handler interface for any inventory.
  * The implementations of this interface are what do the managing/manipulating inventories.
  *
- * The ICustomInventory interface is provided to
+ * The ICustomInventory interface is provided for IInventory implementations that behave on an unorthodox way,
+ * so they can provide a custom implementation of IInventoryHandler.
+ *
  * @see ICustomInventory
+ * @see DefaultInventoryHandler
  */
 public interface IInventoryHandler {
 
