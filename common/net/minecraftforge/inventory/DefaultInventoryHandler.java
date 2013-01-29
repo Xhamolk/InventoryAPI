@@ -43,7 +43,7 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 
 	public int addItemToInventory(IInventory inventory, ItemStack itemStack, ForgeDirection side) {
 		int iMin = 0, iMax;
-		if( inventory instanceof ISidedInventory) {
+		if( inventory instanceof ISidedInventory ) {
 			iMin = ((ISidedInventory) inventory).getStartInventorySide( side );
 			iMax = iMin + ((ISidedInventory) inventory).getSizeInventorySide( side );
 		} else {
@@ -79,7 +79,7 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 			itemStack.stackSize -= amount;
 		}
 
-		if( inventory instanceof IDynamicInventory)
+		if( inventory instanceof IDynamicInventory )
 			((IDynamicInventory) inventory).onItemPlaced( itemStack, slotIndex );
 
 		inventory.onInventoryChanged();
@@ -103,23 +103,23 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 	}
 
 	public int getSpaceInSlotForItem(IInventory inventory, int slotIndex, ItemStack itemStack) {
-		try{
-			if( inventory instanceof IDynamicInventory)
-				return ((IDynamicInventory)inventory).getSlotCapacityForItem(itemStack, slotIndex);
+		try {
+			if( inventory instanceof IDynamicInventory )
+				return ((IDynamicInventory) inventory).getSlotCapacityForItem( itemStack, slotIndex );
 
 			ItemStack stackInSlot = inventory.getStackInSlot( slotIndex );
 			if( stackInSlot == null )
 				return inventory.getInventoryStackLimit();
 
-			if( !InventoryUtils.areItemStacksSimilar(stackInSlot, itemStack) )
+			if( !InventoryUtils.areItemStacksSimilar( stackInSlot, itemStack ) )
 				return 0;
 
 			int maxSize = Math.min( stackInSlot.getMaxStackSize(), inventory.getInventoryStackLimit() );
 			int space = maxSize - stackInSlot.stackSize;
 			return space < 0 ? 0 : space;
-		} catch( ArrayIndexOutOfBoundsException aiob ) {
+		} catch ( ArrayIndexOutOfBoundsException aiob ) {
 			return 0;
-		} catch (IndexOutOfBoundsException iob) {
+		} catch ( IndexOutOfBoundsException iob ) {
 			return 0;
 		}
 	}
@@ -146,7 +146,7 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 
 
 	public ItemStack takeItemFromInventory(IInventory inventory, ItemStack item, ForgeDirection side) {
-		return takeItemFromInventory( inventory, item, item.stackSize, side);
+		return takeItemFromInventory( inventory, item, item.stackSize, side );
 	}
 
 	public ItemStack takeItemFromInventory(IInventory inventory, ItemStack item, int quantity, ForgeDirection side) {
@@ -194,11 +194,11 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 	// might return less than requested, unless there is plenty to fulfill the request.
 	// prefer: takeItemFromInventory instead
 	public ItemStack takeItemFromInventorySlot(IInventory inventory, int slotIndex, int quantity) {
-		try{
+		try {
 
 			boolean dynamicInventory = inventory instanceof IDynamicInventory;
 			if( dynamicInventory ) {
-				int available = ((IDynamicInventory)inventory).getItemAvailabilityInSlot(slotIndex );
+				int available = ((IDynamicInventory) inventory).getItemAvailabilityInSlot( slotIndex );
 				if( available > 0 )
 					quantity = Math.min( available, quantity );
 				else
@@ -220,12 +220,12 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 			}
 
 			if( dynamicInventory ) {
-				((IDynamicInventory)inventory).onItemTaken( itemTaken, slotIndex );
+				((IDynamicInventory) inventory).onItemTaken( itemTaken, slotIndex );
 			}
 
 			inventory.onInventoryChanged();
 			return itemTaken;
-		} catch( ArrayIndexOutOfBoundsException aiob ) {
+		} catch ( ArrayIndexOutOfBoundsException aiob ) {
 			return null;
 		} catch ( IndexOutOfBoundsException iob ) {
 			return null;
@@ -252,16 +252,16 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 	public int getItemCountInSlot(IInventory inventory, int slotIndex) {
 		try {
 			if( inventory instanceof IDynamicInventory )
-				return ((IDynamicInventory)inventory).getItemAvailabilityInSlot( slotIndex );
+				return ((IDynamicInventory) inventory).getItemAvailabilityInSlot( slotIndex );
 
 			ItemStack stackInSlot = inventory.getStackInSlot( slotIndex );
 			if( stackInSlot == null )
 				return 0;
 
 			return stackInSlot.stackSize;
-		} catch( ArrayIndexOutOfBoundsException aiob ) {
+		} catch ( ArrayIndexOutOfBoundsException aiob ) {
 			return 0;
-		} catch( IndexOutOfBoundsException iob ) {
+		} catch ( IndexOutOfBoundsException iob ) {
 			return 0;
 		}
 	}
@@ -271,8 +271,8 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 			ItemStack stackInSlot = inventory.getStackInSlot( slotIndex );
 
 			if( inventory instanceof IDynamicInventory ) {
-				int available = ((IDynamicInventory)inventory).getItemAvailabilityInSlot( slotIndex );
-				if( itemStack != null && !InventoryUtils.areItemStacksSimilar(stackInSlot, itemStack) )
+				int available = ((IDynamicInventory) inventory).getItemAvailabilityInSlot( slotIndex );
+				if( itemStack != null && !InventoryUtils.areItemStacksSimilar( stackInSlot, itemStack ) )
 					return 0;
 				return available;
 			}
@@ -280,13 +280,13 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 			if( stackInSlot == null )
 				return 0;
 
-			if( itemStack != null && InventoryUtils.areItemStacksSimilar(itemStack, stackInSlot) )
+			if( itemStack != null && InventoryUtils.areItemStacksSimilar( itemStack, stackInSlot ) )
 				return stackInSlot.stackSize;
 
 			return 0;
-		} catch( ArrayIndexOutOfBoundsException aiob ) {
+		} catch ( ArrayIndexOutOfBoundsException aiob ) {
 			return 0;
-		} catch( IndexOutOfBoundsException iob ) {
+		} catch ( IndexOutOfBoundsException iob ) {
 			return 0;
 		}
 	}

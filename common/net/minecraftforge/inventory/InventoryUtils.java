@@ -34,13 +34,14 @@ public final class InventoryUtils {
 
 	/**
 	 * Gets the IInventoryHandler suitable for the passed IInventory.
-	 *
+	 * <p/>
 	 * If <code>inventory</code> is not an ICustomInventory, the default IInventoryHandler will be returned.
+	 *
 	 * @see InventoryUtils#defaultInventoryHandler
 	 */
 	public static IInventoryHandler getInventoryHandler(IInventory inventory) {
 		if( inventory == null )
-			throw new IllegalArgumentException("Inventory Utils: inventory null");
+			throw new IllegalArgumentException( "Inventory Utils: inventory null" );
 
 		if( inventory instanceof ICustomInventory )
 			return ((ICustomInventory) inventory).getInventoryHandler();
@@ -53,10 +54,10 @@ public final class InventoryUtils {
 	 *
 	 * @param inventory the IInventory where to place the item.
 	 * @param itemStack the ItemStack to check
-	 * @param side the ForgeDirection (side) from which the Inventory is accessed.
-	 *             Note: This is ignored if <code>inventory</code> it not a <code>ISidedInventory</code>
-	 * @param fitAll if true, this will check if there is enough space to fit the entire stack.
-	 *               otherwise, if there is space for at least one item.
+	 * @param side      the ForgeDirection (side) from which the Inventory is accessed.
+	 *                  Note: This is ignored if <code>inventory</code> it not a <code>ISidedInventory</code>
+	 * @param fitAll    if true, this will check if there is enough space to fit the entire stack.
+	 *                  otherwise, if there is space for at least one item.
 	 * @return fitAll && space == itemStack.stackSize || space > 0
 	 */
 	public static boolean canPlaceItemOnInventory(IInventory inventory, ItemStack itemStack, ForgeDirection side, boolean fitAll) {
@@ -65,14 +66,14 @@ public final class InventoryUtils {
 
 	/**
 	 * Tries to add the ItemStack into the IInventory.
-	 *
+	 * <p/>
 	 * Note: the itemStack.stackSize will be manipulated.
 	 * If it's fully added, it's stack size will become 0.
 	 *
 	 * @param inventory the IInventory where to place the item.
 	 * @param itemStack the ItemStack to add into the inventory
-	 * @param side the ForgeDirection (side) from which the Inventory is accessed.
-	 *             Note: This is ignored if <code>inventory</code> it not a <code>ISidedInventory</code>
+	 * @param side      the ForgeDirection (side) from which the Inventory is accessed.
+	 *                  Note: This is ignored if <code>inventory</code> it not a <code>ISidedInventory</code>
 	 * @return the amount of itemStack added into the inventory.
 	 */
 	public static int addItemToInventory(IInventory inventory, ItemStack itemStack, ForgeDirection side) {
@@ -81,9 +82,9 @@ public final class InventoryUtils {
 
 	/**
 	 * Tries to add the ItemStack into the inventory slot.
-	 *
+	 * <p/>
 	 * Prefer using <code>addItemToInventory</code>
-	 *
+	 * <p/>
 	 * Note: the itemStack.stackSize will be manipulated.
 	 * If it's fully added, it's stack size will become 0.
 	 *
@@ -103,8 +104,8 @@ public final class InventoryUtils {
 	 *
 	 * @param inventory the IInventory to check for space
 	 * @param itemStack the ItemStack to compare
-	 * @param side the ForgeDirection (side) from which the Inventory is accessed.
-	 *             Note: This is ignored if <code>inventory</code> it not a <code>ISidedInventory</code>
+	 * @param side      the ForgeDirection (side) from which the Inventory is accessed.
+	 *                  Note: This is ignored if <code>inventory</code> it not a <code>ISidedInventory</code>
 	 * @return the amount of itemStack that could fit on the inventory.
 	 */
 	public static int getSpaceInInventoryForItem(IInventory inventory, ItemStack itemStack, ForgeDirection side) {
@@ -115,7 +116,7 @@ public final class InventoryUtils {
 	 * Gets the available space for the itemStack a the particular slot on the inventory provided.
 	 * The returned value is the amount of itemStack that could be placed on that slot,
 	 * but it's not limited to the current itemStack.stackSize.
-	 *
+	 * <p/>
 	 * Note: will return 0 if a IndexOutOfBoundsException is caught.
 	 *
 	 * @param inventory the IInventory to check for space
@@ -131,8 +132,8 @@ public final class InventoryUtils {
 	 * Takes the first available item on the inventory.
 	 *
 	 * @param inventory the inventory from where to take the item.
-	 * @param side the side from which the inventory is accessed.
-	 *             This will be ignored unless the inventory is ISidedInventory.
+	 * @param side      the side from which the inventory is accessed.
+	 *                  This will be ignored unless the inventory is ISidedInventory.
 	 * @return the ItemStack of the item found, or null if no item is available on the inventory.
 	 */
 	public static ItemStack takeItemFromInventory(IInventory inventory, ForgeDirection side) {
@@ -152,7 +153,7 @@ public final class InventoryUtils {
 
 
 	public static ItemStack takeItemFromInventorySlot(IInventory inventory, int slotIndex) {
-		return getInventoryHandler( inventory ).takeItemFromInventorySlot(inventory, slotIndex);
+		return getInventoryHandler( inventory ).takeItemFromInventorySlot( inventory, slotIndex );
 	}
 
 	public static ItemStack takeItemFromInventorySlot(IInventory inventory, int slotIndex, int quantity) {
