@@ -126,6 +126,11 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 
 	@Override
 	public ItemStack takeItemFromInventory(IInventory inventory, ForgeDirection side) {
+		return takeItemFromInventory( inventory, null, side );
+	}
+
+
+	public ItemStack takeItemFromInventory(IInventory inventory, ItemStack item, ForgeDirection side) {
 		int iMin = 0, iMax;
 		if( inventory instanceof ISidedInventory ) {
 			iMin = ((ISidedInventory) inventory).getStartInventorySide( side );
@@ -135,18 +140,15 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 		}
 
 		for( int slotIndex = iMin; slotIndex < iMax; slotIndex++ ) {
-			int count = getItemCountInSlot( inventory, slotIndex );
-			if( count > 0 ) {
-				return takeItemFromInventorySlot( inventory, slotIndex );
-			}
+			int count = getItemCountInSlot( inventory, slotIndex, item );
+			if( count == 0 )
+				continue;
+
+			ItemStack takenStack = takeItemFromInventorySlot( inventory, slotIndex );
+			if( takenStack != null )
+				return takenStack;
 		}
-
 		return null;
-	}
-
-
-	public ItemStack takeItemFromInventory(IInventory inventory, ItemStack item, ForgeDirection side) {
-		return takeItemFromInventory( inventory, item, item.stackSize, side );
 	}
 
 	public ItemStack takeItemFromInventory(IInventory inventory, ItemStack item, int quantity, ForgeDirection side) {
@@ -158,7 +160,8 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 			iMax = inventory.getSizeInventory();
 		}
 
-		int remaining = Math.min( quantity, item.getMaxStackSize() );
+		int remaining = item == null ? quantity : Math.min( quantity, item.getMaxStackSize() );
+
 		ItemStack takenItem = null;
 		for( int slotIndex = iMin; slotIndex < iMax; slotIndex++ ) {
 			if( remaining <= 0 )
@@ -280,7 +283,7 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 			if( stackInSlot == null )
 				return 0;
 
-			if( itemStack != null && InventoryUtils.areItemStacksSimilar( itemStack, stackInSlot ) )
+			if( itemStack == null || InventoryUtils.areItemStacksSimilar( itemStack, stackInSlot ) )
 				return stackInSlot.stackSize;
 
 			return 0;

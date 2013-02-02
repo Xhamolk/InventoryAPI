@@ -98,7 +98,7 @@ public interface IInventoryHandler {
 	public int getSpaceInSlotForItem(IInventory inventory, int slotIndex, ItemStack itemStack);
 
 	/**
-	 * Takes the first available item on the inventory.
+	 * Takes the first available item stack on the inventory.
 	 *
 	 * @param inventory the inventory from where to take the item.
 	 * @param side the side from which the inventory is accessed.
@@ -111,7 +111,8 @@ public interface IInventoryHandler {
 	 * Takes from the inventory the first stack of the item passed.
 	 *
 	 * @param inventory the inventory from where to take the item.
-	 * @param item the item to be taken. Only non-null values allowed.
+	 * @param item the item to be taken.
+	 *             Acts as a filter, so a <code>null</code> value would exclude nothing.
 	 * @param side the side from which the inventory is accessed.
 	 *             This will be ignored unless the inventory is ISidedInventory.
 	 * @return the ItemStack taken.
@@ -125,8 +126,9 @@ public interface IInventoryHandler {
 	 * Keep in mind that the max amount returned is limited by the item's max stack size.
 	 *
 	 * @param inventory the inventory from where to take the item.
-	 * @param item      the item to be taken. Only non-null values allowed.
-	 * @param quantity  the amount to take of this item.
+	 * @param item the item to be taken.
+	 *             Acts as a filter, so a <code>null</code> value would exclude nothing.
+	 * @param quantity  the amount of items to take.
 	 * @param side      the side from which the inventory is accessed.
 	 *                  This will be ignored unless the inventory is ISidedInventory.
 	 * @return the ItemStack taken.
@@ -160,6 +162,7 @@ public interface IInventoryHandler {
 	 *
 	 * @param inventory the inventory to check for the item.
 	 * @param itemStack the item to match on the inventory.
+	 *                  Acts as a filter, so a <code>null</code> value would exclude nothing.
 	 * @param side the side from which the inventory is accessed.
 	 *             This will be ignored unless the inventory is ISidedInventory.
 	 * @return the amount available of the specified item in the inventory.
@@ -182,6 +185,7 @@ public interface IInventoryHandler {
 	 * @param inventory the inventory checked.
 	 * @param slotIndex the inventory slot to check.
 	 * @param itemStack the item to match on the inventory slot.
+	 *                  Acts as a filter, so a <code>null</code> value would exclude nothing.
 	 * @return the amount available of the item specified.
 	 *      Or 0, if the slot is empty or doesn't match with <code>itemStack</code>.
 	 */
