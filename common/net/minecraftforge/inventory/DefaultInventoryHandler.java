@@ -51,11 +51,23 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 		}
 
 		int added = 0;
-		for( int slotIndex = iMin; slotIndex < iMax; slotIndex++ ) {
-			if( itemStack.stackSize == 0 )
-				break;
-			added += addItemToInventorySlot( inventory, slotIndex, itemStack );
+
+		// Add to a slot that has some of that item.
+		int slot = iMin;
+		while( (slot = getPartialSlot( inventory, itemStack, slot, iMax )) >= 0 ) {
+			if( itemStack.stackSize <= 0 )
+				return added;
+			added += addItemToInventorySlot( inventory, slot, itemStack );
 		}
+
+		// Add to an empty slot.
+		slot = iMin;
+		while( (slot = getEmptySlot( inventory, itemStack, slot, iMax )) >= 0 ) {
+			if( itemStack.stackSize <= 0 )
+				return added;
+			added += addItemToInventorySlot( inventory, slot, itemStack );
+		}
+
 		return added;
 	}
 
@@ -292,6 +304,26 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 		} catch ( IndexOutOfBoundsException iob ) {
 			return 0;
 		}
+	}
+
+
+	protected int getPartialSlot(IInventory inventory, ItemStack itemStack, int minIndex, int maxIndex) {
+		for( int index = minIndex; index < maxIndex; index++ ) {
+			if( inventory.getStackInSlot( index ) == null )
+				continue;
+
+			if( getSpaceInSlotForItem( inventory, index, itemStack ) > 0 )
+				return index;
+		}
+		return -1;
+	}
+
+	protected int getEmptySlot(IInventory inventory, ItemStack itemStack, int minIndex, int maxIndex) {
+		for( int index = minIndex; index < maxIndex; index++ ) {
+			if( inventory.getStackInSlot( index ) == null && getSpaceInSlotForItem( inventory, index, itemStack ) > 0 )
+				return index;
+		}
+		return -1;
 	}
 
 }
