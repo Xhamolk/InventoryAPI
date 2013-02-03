@@ -1,0 +1,54 @@
+Index: ../../MCP/MC 146 #471/forge/mcp/src/minecraft/net/minecraft/tileentity/TileEntityFurnace.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../MCP/MC 146 #471/forge/mcp/src/minecraft/net/minecraft/tileentity/TileEntityFurnace.java	(revision )
++++ ../../MCP/MC 146 #471/forge/mcp/src/minecraft/net/minecraft/tileentity/TileEntityFurnace.java	(revision )
+@@ -20,8 +20,10 @@
+ 
+ import net.minecraftforge.common.ForgeDirection;
+ import net.minecraftforge.common.ISidedInventory;
++import net.minecraftforge.inventory.IDynamicInventory;
++import net.minecraftforge.inventory.InventoryUtils;
+ 
+-public class TileEntityFurnace extends TileEntity implements IInventory, ISidedInventory
++public class TileEntityFurnace extends TileEntity implements IInventory, ISidedInventory, IDynamicInventory
+ {
+     /**
+      * The ItemStacks that hold the items currently being used in the furnace
+@@ -408,4 +410,34 @@
+     {
+         return 1;
+     }
++
++
++	// IDynamic Inventory
++
++	@Override
++	public int getSlotCapacityForItem(ItemStack itemStack, int slot) {
++		if( slot == 2 ) // output slot
++			return 0; // no placing items on the output slot, to prevent exp exploits.
++
++		ItemStack stackInSlot = this.getStackInSlot( slot );
++		if( stackInSlot == null )
++			return this.getInventoryStackLimit();
++
++		if( itemStack == null || InventoryUtils.areItemStacksSimilar( stackInSlot, itemStack ) )
++			return this.getInventoryStackLimit() - stackInSlot.stackSize;
++		return 0;
++	}
++
++	@Override
++	public int getItemAvailabilityInSlot(int slot) {
++		ItemStack stackInSlot = this.getStackInSlot( slot );
++		return stackInSlot == null ? 0 : stackInSlot.stackSize;
++	}
++
++	@Override
++	public void onItemPlaced(ItemStack itemStack, int slot) { }
++
++	@Override
++	public void onItemTaken(ItemStack itemStack, int slot) { }
++
+ }
