@@ -1,0 +1,103 @@
+Index: ../../MCP/MC 146 #489/decompile-deobf/Sources/Thermal Expansion - 2.1.7/thermalexpansion/core/utils/Utils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../MCP/MC 146 #489/decompile-deobf/Sources/Thermal Expansion - 2.1.7/thermalexpansion/core/utils/Utils.java	(revision )
++++ ../../MCP/MC 146 #489/decompile-deobf/Sources/Thermal Expansion - 2.1.7/thermalexpansion/core/utils/Utils.java	(revision )
+@@ -34,6 +34,7 @@
+ import net.minecraft.world.World;
+ import net.minecraftforge.common.ForgeDirection;
+ import net.minecraftforge.common.ISidedInventory;
++import net.minecraftforge.inventory.InventoryUtils;
+ import net.minecraftforge.liquids.ITankContainer;
+ import net.minecraftforge.liquids.LiquidContainerRegistry;
+ import net.minecraftforge.liquids.LiquidStack;
+@@ -72,25 +73,15 @@
+ 
+   public static ItemStack addToInventorySlot(IInventory theInventory, int theSlot, ItemStack theStack)
+   {
+-    ItemStack aStack = theInventory.getStackInSlot(theSlot);
+-
+-    if (aStack == null) {
+-      aStack = theStack.copy();
+-      theInventory.setInventorySlotContents(theSlot, aStack);
++    // InventoryAPI
++    int space = InventoryUtils.getSpaceInSlotForItem( theInventory, theSlot, theStack );
++    if( space > 0 ) {
++      InventoryUtils.addItemToInventorySlot( theInventory, theSlot, theStack );
++      if (theStack.stackSize <= 0) {
+-      return null;
++        return null;
+-    }if (aStack.isItemEqual(theStack)) {
+-      if (theStack.stackSize + aStack.stackSize > aStack.getMaxStackSize()) {
+-        int stackDiff = aStack.getMaxStackSize() - aStack.stackSize;
+-        aStack.stackSize = aStack.getMaxStackSize();
+-        theStack.stackSize -= stackDiff;
+-        theInventory.setInventorySlotContents(theSlot, aStack);
+-        return theStack;
+       }
+-      aStack.stackSize += theStack.stackSize;
+-      theInventory.setInventorySlotContents(theSlot, aStack);
+-      return null;
+     }
+-
++	// Returns the remaining stack.
+     return theStack;
+   }
+ 
+@@ -134,48 +125,12 @@
+     int[] coords = BlockUtils.getAdjacentCoordinatesForSide(tile.xCoord, tile.yCoord, tile.zCoord, from);
+     TileEntity tileInventory = tile.worldObj.getBlockTileEntity(coords[0], coords[1], coords[2]);
+ 
+-    if ((tileInventory instanceof ISidedInventory)) {
+-      ISidedInventory sidedInv = (ISidedInventory)tileInventory;
+-
+-      int first = sidedInv.getStartInventorySide(ForgeDirection.getOrientation(from).getOpposite());
+-      int last = first + sidedInv.getSizeInventorySide(ForgeDirection.getOrientation(from).getOpposite());
+-
+-      if (last - first < 128) {
+-        for (int i = first; i < last; i++) {
+-          if ((sidedInv.getStackInSlot(i) != null) && (sidedInv.getStackInSlot(i).isItemEqual(theStack))) {
+-            theStack = addToInventorySlot(sidedInv, i, theStack);
++    if( tileInventory instanceof IInventory ) {
++      int stackSize = theStack.stackSize;
++      int added = InventoryUtils.addItemToInventory((IInventory) tileInventory, theStack, ForgeDirection.getOrientation(from));
++      return stackSize - added; // Returns the remaining amount.
+-          }
++    }
+-          if (theStack == null) {
+-            return 0;
+-          }
+-        }
+-      }
+-      for (int i = first; i < last; i++) {
+-        theStack = addToInventorySlot(sidedInv, i, theStack);
+-        if (theStack == null)
+-          return 0;
+-      }
+-    }
+-    else if ((tileInventory instanceof IInventory)) {
+-      IInventory inv = (IInventory)tileInventory;
+ 
+-      if (inv.getSizeInventory() < 128) {
+-        for (int i = 0; i < inv.getSizeInventory(); i++) {
+-          if ((inv.getStackInSlot(i) != null) && (inv.getStackInSlot(i).isItemEqual(theStack))) {
+-            theStack = addToInventorySlot(inv, i, theStack);
+-          }
+-          if (theStack == null) {
+-            return 0;
+-          }
+-        }
+-      }
+-      for (int i = 0; i < inv.getSizeInventory(); i++) {
+-        theStack = addToInventorySlot(inv, i, theStack);
+-        if (theStack == null) {
+-          return 0;
+-        }
+-      }
+-    }
+     return theStack.stackSize;
+   }
+ 
+\ No newline at end of file
