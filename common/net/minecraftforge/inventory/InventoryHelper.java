@@ -34,7 +34,7 @@ public class InventoryHelper {
 	protected ForgeDirection sideAccessed = ForgeDirection.UNKNOWN;
 
 
-	public InventoryHelper(IInventory inventory) {
+	protected InventoryHelper(IInventory inventory) {
 		this.inventory = inventory;
 		this.handler = InventoryUtils.getInventoryHandler( inventory );
 	}

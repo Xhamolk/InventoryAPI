@@ -32,6 +32,10 @@ public final class InventoryUtils {
 		return false;
 	}
 
+	public static InventoryHelper getInventoryHelper(IInventory inventory) {
+		return new InventoryHelper( inventory );
+	}
+
 	/**
 	 * Gets the IInventoryHandler suitable for the passed IInventory.
 	 * <p/>
