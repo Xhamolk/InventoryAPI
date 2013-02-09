@@ -16,7 +16,7 @@ public class InventoryHelper {
 	/**
 	 * The IInventory handled by this InventoryHelper
 	 */
-	protected final IInventory inventory;
+	protected IInventory inventory;
 
 	/**
 	 * The IInventoryHandler used by this InventoryHelper
