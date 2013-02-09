@@ -8,25 +8,22 @@ import net.minecraftforge.common.ForgeDirection;
 public class RoundRobinInventoryHandler extends DefaultInventoryHandler {
 
 	public int getSpaceInSlotForItem(IInventory inventory, int slotIndex, ItemStack itemStack) {
-		try {
-			if( inventory instanceof IDynamicInventory )
-				return ((IDynamicInventory) inventory).getSlotCapacityForItem( itemStack, slotIndex );
-
-			ItemStack stackInSlot = inventory.getStackInSlot( slotIndex );
-			if( stackInSlot == null )
-				return 0; // Don't place items on empty slots.
-
-			if( !InventoryUtils.areItemStacksSimilar( stackInSlot, itemStack ) )
-				return 0;
-
-			int maxSize = Math.min( stackInSlot.getMaxStackSize(), inventory.getInventoryStackLimit() );
-			int space = maxSize - stackInSlot.stackSize;
-			return space < 0 ? 0 : space;
-		} catch ( ArrayIndexOutOfBoundsException aiob ) {
+		if( slotIndex < 0 || slotIndex > inventory.getSizeInventory() )
 			return 0;
-		} catch ( IndexOutOfBoundsException iob ) {
+
+		if( inventory instanceof IDynamicInventory )
+			return ((IDynamicInventory) inventory).getSlotCapacityForItem( itemStack, slotIndex );
+
+		ItemStack stackInSlot = inventory.getStackInSlot( slotIndex );
+		if( stackInSlot == null )
+			return 0; // Don't place items on empty slots.
+
+		if( !InventoryUtils.areItemStacksSimilar( stackInSlot, itemStack ) )
 			return 0;
-		}
+
+		int maxSize = Math.min( stackInSlot.getMaxStackSize(), inventory.getInventoryStackLimit() );
+		int space = maxSize - stackInSlot.stackSize;
+		return space < 0 ? 0 : space;
 	}
 
 	public int addItemToInventory(IInventory inventory, ItemStack stack, ForgeDirection side) {
