@@ -2,13 +2,11 @@ package net.minecraftforge.inventory;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ForgeDirection;
-
-import java.util.ArrayList;
 
 public final class InventoryUtils {
 
-	private InventoryUtils() {}
+	private InventoryUtils() {
+	}
 
 	/**
 	 * The default IInventoryHandler.

@@ -115,7 +115,7 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 	}
 
 	public int getSpaceInSlotForItem(IInventory inventory, int slotIndex, ItemStack itemStack) {
-		if( slotIndex  < 0 || slotIndex > inventory.getSizeInventory() )
+		if( slotIndex < 0 || slotIndex > inventory.getSizeInventory() )
 			return 0;
 		if( inventory instanceof IDynamicInventory )
 			return ((IDynamicInventory) inventory).getSlotCapacityForItem( itemStack, slotIndex );
@@ -205,7 +205,7 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 	// might return less than requested, unless there is plenty to fulfill the request.
 	// prefer: takeItemFromInventory instead
 	public ItemStack takeItemFromInventorySlot(IInventory inventory, int slotIndex, int quantity) {
-		if( slotIndex  < 0 || slotIndex > inventory.getSizeInventory() )
+		if( slotIndex < 0 || slotIndex > inventory.getSizeInventory() )
 			return null;
 
 		boolean dynamicInventory = inventory instanceof IDynamicInventory;
@@ -257,7 +257,7 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 
 	@Override
 	public int getItemCountInSlot(IInventory inventory, int slotIndex) {
-		if( slotIndex  < 0 || slotIndex > inventory.getSizeInventory() )
+		if( slotIndex < 0 || slotIndex > inventory.getSizeInventory() )
 			return 0;
 
 		if( inventory instanceof IDynamicInventory )
@@ -271,7 +271,7 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 	}
 
 	public int getItemCountInSlot(IInventory inventory, int slotIndex, ItemStack itemStack) {
-		if( slotIndex  < 0 || slotIndex > inventory.getSizeInventory() )
+		if( slotIndex < 0 || slotIndex > inventory.getSizeInventory() )
 			return 0;
 
 		ItemStack stackInSlot = inventory.getStackInSlot( slotIndex );
