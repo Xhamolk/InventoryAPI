@@ -14,16 +14,13 @@ public interface IDynamicInventory extends IInventory {
 	/**
 	 * Determines the quantity of <code>itemStack</code> that can be placed on the inventory slot.
 	 * <p/>
-	 * This must check that <code>itemStack</code> matches the slot's contents, if any.
-	 * E.g, check <code>ItemStack.areItemStacksEqual()</code>
-	 * <p/>
 	 * Note: The actual process of placing/merging the item to the slot is done through
 	 * <code>IInventory.setInventorySlotContents()</code>.
 	 *
 	 * @param itemStack the ItemStack to be checked.
 	 * @param slot      the index of the inventory slot to which <code>itemStack</code> will placed.
 	 * @return the quantity of <code>itemStack</code> that could be merged into the inventory slot.
-	 * @see InventoryUtils#addItemToInventorySlot(net.minecraft.inventory.IInventory, int, net.minecraft.item.ItemStack)
+	 * @see DefaultInventoryHandler#addItemToInventorySlot(net.minecraft.inventory.IInventory, int, net.minecraft.item.ItemStack)
 	 */
 	public int getSlotCapacityForItem(ItemStack itemStack, int slot); // canSlotAcceptItem
 

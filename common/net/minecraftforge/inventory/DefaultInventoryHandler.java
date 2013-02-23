@@ -92,7 +92,7 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 		}
 
 		if( inventory instanceof IDynamicInventory )
-			((IDynamicInventory) inventory).onItemPlaced( itemStack, slotIndex );
+			((IDynamicInventory) inventory).onItemPlaced( placedStack, slotIndex );
 
 		inventory.onInventoryChanged();
 		return amount;
@@ -117,19 +117,23 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 	public int getSpaceInSlotForItem(IInventory inventory, int slotIndex, ItemStack itemStack) {
 		if( slotIndex < 0 || slotIndex > inventory.getSizeInventory() )
 			return 0;
-		if( inventory instanceof IDynamicInventory )
-			return ((IDynamicInventory) inventory).getSlotCapacityForItem( itemStack, slotIndex );
 
 		ItemStack stackInSlot = inventory.getStackInSlot( slotIndex );
-		if( stackInSlot == null )
-			return inventory.getInventoryStackLimit();
 
-		if( !InventoryUtils.areItemStacksSimilar( stackInSlot, itemStack ) )
-			return 0;
+		if( stackInSlot == null || InventoryUtils.areItemStacksSimilar( stackInSlot, itemStack ) ) {
 
-		int maxSize = Math.min( stackInSlot.getMaxStackSize(), inventory.getInventoryStackLimit() );
-		int space = maxSize - stackInSlot.stackSize;
-		return space < 0 ? 0 : space;
+			if( inventory instanceof IDynamicInventory )
+				return ((IDynamicInventory) inventory).getSlotCapacityForItem( itemStack, slotIndex );
+
+			if( stackInSlot == null )
+				return inventory.getInventoryStackLimit();
+
+			int maxSize = Math.min( stackInSlot.getMaxStackSize(), inventory.getInventoryStackLimit() );
+			int space = maxSize - stackInSlot.stackSize;
+			return space < 0 ? 0 : space;
+
+		}
+		return 0;
 	}
 
 	@Override
