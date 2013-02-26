@@ -226,12 +226,12 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 			return null;
 
 		ItemStack itemTaken;
-		if( quantity > inventoryStack.stackSize ) {
+		if( quantity >= inventoryStack.stackSize ) {
 			itemTaken = inventoryStack.copy();
 			inventory.setInventorySlotContents( slotIndex, null );
 		} else {
 			itemTaken = inventory.decrStackSize( slotIndex, quantity );
-			if( inventoryStack.stackSize == 0 )
+			if( inventoryStack.stackSize <= 0 )
 				inventory.setInventorySlotContents( slotIndex, null );
 		}
 
