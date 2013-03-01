@@ -56,22 +56,6 @@ public interface IInventoryHandler {
 	public int addItemToInventory(IInventory inventory, ItemStack itemStack, ForgeDirection side);
 
 	/**
-	 * Tries to add the ItemStack into the IInventory.
-	 * <p/>
-	 * Note: the itemStack.stackSize might be manipulated.
-	 * If it's fully added, its stack size will become 0.
-	 * <p/>
-	 * Prefer using <code>addItemToInventory()</code> instead.
-	 *
-	 * @param inventory the IInventory where to place the item.
-	 * @param slotIndex the inventory slot where to try to place the item.
-	 * @param itemStack the ItemStack to be added into the inventory.
-	 * @return the amount of itemStack added into the inventory slot.
-	 * @see IInventoryHandler#addItemToInventory(net.minecraft.inventory.IInventory, net.minecraft.item.ItemStack, net.minecraftforge.common.ForgeDirection)
-	 */
-	public int addItemToInventorySlot(IInventory inventory, int slotIndex, ItemStack itemStack);
-
-	/**
 	 * Gets the available space on the inventory for the itemStack.
 	 * Will respect ISidedInventory's functionality.
 	 *
@@ -82,20 +66,6 @@ public interface IInventoryHandler {
 	 * @return the amount of itemStack that could fit on the inventory.
 	 */
 	public int getSpaceInInventoryForItem(IInventory inventory, ItemStack itemStack, ForgeDirection side);
-
-	/**
-	 * Gets the available space for the itemStack a the particular slot on the inventory provided.
-	 * The returned value is the amount of itemStack that could be placed on that slot,
-	 * but it's not limited to the current itemStack.stackSize.
-	 * <p/>
-	 * Note: will return 0 if a IndexOutOfBoundsException is caught.
-	 *
-	 * @param inventory the IInventory to check for space
-	 * @param slotIndex the inventory slot to check for space
-	 * @param itemStack the ItemStack to compare
-	 * @return the amount of itemStack that could fit on the inventory slot.
-	 */
-	public int getSpaceInSlotForItem(IInventory inventory, int slotIndex, ItemStack itemStack);
 
 	/**
 	 * Takes the first available item stack on the inventory.
@@ -136,28 +106,6 @@ public interface IInventoryHandler {
 	public ItemStack takeItemFromInventory(IInventory inventory, ItemStack item, int quantity, ForgeDirection side);
 
 	/**
-	 * Takes the entire stack from the inventory slot.
-	 *
-	 * @param inventory the inventory from where to take the item.
-	 * @param slotIndex the inventory slot from where to take the item.
-	 * @return the ItemStack taken, or null if the inventory slot is empty.
-	 */
-	public ItemStack takeItemFromInventorySlot(IInventory inventory, int slotIndex);
-
-	/**
-	 * Takes the specified amount of the item on the inventory slot.
-	 * <p/>
-	 * Prefer using <code>takeItemFromInventory()</code> instead.
-	 *
-	 * @param inventory the inventory from where to take the item.
-	 * @param slotIndex the inventory slot from where to take the item.
-	 * @param quantity  the amount to take
-	 * @return the ItemStack taken, or null if the slot is empty.
-	 * @see IInventoryHandler#takeItemFromInventory(net.minecraft.inventory.IInventory, net.minecraftforge.common.ForgeDirection)
-	 */
-	public ItemStack takeItemFromInventorySlot(IInventory inventory, int slotIndex, int quantity);
-
-	/**
 	 * Get the amount available of the specified item in the inventory.
 	 *
 	 * @param inventory the inventory to check for the item.
@@ -168,27 +116,5 @@ public interface IInventoryHandler {
 	 * @return the amount available of the specified item in the inventory.
 	 */
 	public int getItemCountInInventory(IInventory inventory, ItemStack itemStack, ForgeDirection side);
-
-	/**
-	 * Get the amount available of items in the inventory slot.
-	 *
-	 * @param inventory the inventory to check for items.
-	 * @param slotIndex the inventory slot to check.
-	 * @return the amount available of any item in the inventory slot.
-	 *         Or 0, if the slot is empty.
-	 */
-	public int getItemCountInSlot(IInventory inventory, int slotIndex);
-
-	/**
-	 * Get the amount available of the specified item on the inventory slot.
-	 *
-	 * @param inventory the inventory checked.
-	 * @param slotIndex the inventory slot to check.
-	 * @param itemStack the item to match on the inventory slot.
-	 *                  Acts as a filter, so a <code>null</code> value would exclude nothing.
-	 * @return the amount available of the item specified.
-	 *         Or 0, if the slot is empty or doesn't match with <code>itemStack</code>.
-	 */
-	public int getItemCountInSlot(IInventory inventory, int slotIndex, ItemStack itemStack);
 
 }

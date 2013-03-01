@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class DefaultInventoryHandler implements IInventoryHandler {
 
-
+	@Override
 	public ArrayList<ItemStack> listItemsInInventory(IInventory inventory, ForgeDirection side) {
 		int iMin = 0, iMax;
 		if( inventory instanceof ISidedInventory ) {
@@ -35,12 +35,13 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 		return list;
 	}
 
-
+	@Override
 	public boolean canPlaceItemOnInventory(IInventory inventory, ItemStack itemStack, ForgeDirection side, boolean fitAll) {
 		int space = getSpaceInInventoryForItem( inventory, itemStack, side );
 		return fitAll && space == itemStack.stackSize || space > 0;
 	}
 
+	@Override
 	public int addItemToInventory(IInventory inventory, ItemStack itemStack, ForgeDirection side) {
 		int iMin = 0, iMax;
 		if( inventory instanceof ISidedInventory ) {
@@ -98,6 +99,7 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 		return amount;
 	}
 
+	@Override
 	public int getSpaceInInventoryForItem(IInventory inventory, ItemStack itemStack, ForgeDirection side) {
 		int iMin = 0, iMax;
 		if( inventory instanceof ISidedInventory ) {
@@ -141,7 +143,7 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 		return takeItemFromInventory( inventory, null, side );
 	}
 
-
+	@Override
 	public ItemStack takeItemFromInventory(IInventory inventory, ItemStack item, ForgeDirection side) {
 		int iMin = 0, iMax;
 		if( inventory instanceof ISidedInventory ) {
@@ -163,6 +165,7 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 		return null;
 	}
 
+	@Override
 	public ItemStack takeItemFromInventory(IInventory inventory, ItemStack item, int quantity, ForgeDirection side) {
 		int iMin = 0, iMax;
 		if( inventory instanceof ISidedInventory ) {
@@ -243,6 +246,7 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 		return itemTaken;
 	}
 
+	@Override
 	public int getItemCountInInventory(IInventory inventory, ItemStack itemStack, ForgeDirection side) {
 		int iMin = 0, iMax;
 		if( inventory instanceof ISidedInventory ) {
@@ -259,7 +263,6 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 		return count;
 	}
 
-	@Override
 	public int getItemCountInSlot(IInventory inventory, int slotIndex) {
 		if( slotIndex < 0 || slotIndex > inventory.getSizeInventory() )
 			return 0;
