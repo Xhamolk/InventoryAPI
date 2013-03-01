@@ -77,8 +77,8 @@ public class InventoryHelper {
 		return handler.getSpaceInInventoryForItem( inventory, itemStack, sideAccessed );
 	}
 
-	public ItemStack takeItemFromInventory() { // whole stack
-		return handler.takeItemFromInventory( inventory, sideAccessed );
+	public ItemStack takeAnyItemFromInventory() { // whole stack
+		return handler.takeItemFromInventory( inventory, null, sideAccessed );
 	}
 
 	// itemStack acts as a filter.
