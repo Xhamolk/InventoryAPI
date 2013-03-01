@@ -33,6 +33,10 @@ public class InventoryHelper {
 	 */
 	protected ForgeDirection sideAccessed = ForgeDirection.UNKNOWN;
 
+	protected InventoryHelper() {
+		this.inventory = null;
+		this.handler = null;
+	}
 
 	public InventoryHelper(IInventory inventory) {
 		this.inventory = inventory;
