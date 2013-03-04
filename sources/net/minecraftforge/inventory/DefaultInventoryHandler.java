@@ -281,22 +281,14 @@ public class DefaultInventoryHandler implements IInventoryHandler {
 		if( slotIndex < 0 || slotIndex > inventory.getSizeInventory() )
 			return 0;
 
-		ItemStack stackInSlot = inventory.getStackInSlot( slotIndex );
-
-		if( inventory instanceof IDynamicInventory ) {
-			int available = ((IDynamicInventory) inventory).getItemAvailabilityInSlot( slotIndex );
-			if( itemStack != null && !InventoryUtils.areItemStacksSimilar( stackInSlot, itemStack ) )
-				return 0;
-			return available;
+		int count = getItemCountInSlot( inventory, slotIndex );
+		if( count > 0 ) {
+			ItemStack stackInSlot = inventory.getStackInSlot( slotIndex );
+			if( itemStack != null && !InventoryUtils.areItemStacksSimilar( itemStack, stackInSlot ) )
+				count = 0;
 		}
 
-		if( stackInSlot == null )
-			return 0;
-
-		if( itemStack == null || InventoryUtils.areItemStacksSimilar( itemStack, stackInSlot ) )
-			return stackInSlot.stackSize;
-
-		return 0;
+		return count;
 	}
 
 
