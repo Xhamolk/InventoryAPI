@@ -7,6 +7,7 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 
 /**
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 public class DefaultInventoryHandler implements IInventoryHandler {
 
 	@Override
-	public ArrayList<ItemStack> listItemsInInventory(IInventory inventory, ForgeDirection side) {
+	public Collection<ItemStack> listItemsInInventory(IInventory inventory, ForgeDirection side) {
 		int iMin = 0, iMax;
 		if( inventory instanceof ISidedInventory ) {
 			iMin = ((ISidedInventory) inventory).getStartInventorySide( side );
