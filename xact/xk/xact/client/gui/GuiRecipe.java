@@ -19,6 +19,7 @@ public class GuiRecipe extends CraftingGui {
 	public GuiRecipe(EntityPlayer player, Container container) {
 		super( container );
 		this.player = player;
+		this.ySize = 180;
 	}
 
 	private ItemStack target = null;
@@ -99,10 +100,10 @@ public class GuiRecipe extends CraftingGui {
 			itemRenderer.renderItemOverlayIntoGUI( this.fontRenderer, this.mc.renderEngine, target, x, y );
 			itemRenderer.zLevel = 0.0F;
 			this.zLevel = 0.0F;
-		}
 
-		int color = 165 << 24 | GuiUtils.COLOR_GRAY;
-		GuiUtils.paintSlotOverlay( slot, 16, color );
+			int color = 165 << 24 | GuiUtils.COLOR_GRAY;
+			GuiUtils.paintSlotOverlay( slot, 16, color );
+		}
 	}
 
 	private void buttonClicked(int i) {

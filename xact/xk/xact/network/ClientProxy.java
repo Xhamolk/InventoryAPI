@@ -13,15 +13,14 @@ import xk.xact.XActMod;
 import xk.xact.client.BlueprintRenderer;
 import xk.xact.client.KeyBindingHandler;
 import xk.xact.client.ChipRenderer;
-import xk.xact.client.gui.GuiCase;
-import xk.xact.client.gui.GuiPad;
-import xk.xact.client.gui.GuiVanillaWorkbench;
+import xk.xact.client.gui.*;
 import xk.xact.core.ChipCase;
 import xk.xact.core.CraftPad;
 import xk.xact.core.tileentities.TileMachine;
 import xk.xact.core.tileentities.TileWorkbench;
 import xk.xact.gui.ContainerCase;
 import xk.xact.gui.ContainerPad;
+import xk.xact.gui.ContainerRecipe;
 import xk.xact.gui.ContainerVanillaWorkbench;
 
 public class ClientProxy extends CommonProxy {
@@ -88,9 +87,12 @@ public class ClientProxy extends CommonProxy {
 			// item.getTagCompound() );
 			// return new GuiPlan(project);
 			// }
+			return new GuiBlueprint( player.inventory.getCurrentItem() );
 		}
 
 		if( ID == 5 ) { // Set a recipe
+
+			return new GuiRecipe( player, new ContainerRecipe(player) );
 
 			// GuiScreen screen = getCurrentScreen();
 			// if( screen instanceof GuiPlan ) {

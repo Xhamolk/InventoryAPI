@@ -33,7 +33,9 @@ public class ItemBlankBlueprint extends Item {
 	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
 		int blockID = world.getBlockId( x, y, z );
 		if( blockID == Block.workbench.blockID ) {
-			// unimplemented functionality.
+			if( world.isRemote ) // client-side only
+				player.openGui( XActMod.instance, 4, world, x, y, z );
+			return true;
 		}
 		return false;
 	}
